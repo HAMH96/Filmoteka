@@ -1,2 +1,2 @@
-# Filmoteka
-GO IT JavaScript Group Project
+# Proyecto-Filmoteka
+GRUPO 3
