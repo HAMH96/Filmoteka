@@ -17,6 +17,9 @@ notiflixSetup();
 const watchedRef = document.querySelector('[data-id="watched-btn"]');
 const queueRef = document.querySelector('[data-id="queue-btn"]');
 const headerRef = document.querySelector('.header__container');
+
+refs.libraryForEmptyStyle.style.paddingLeft = '105px';
+
 export function loadIntoModal(id) {
   Notiflix.Loading.standard();
   const film = getInfoMovie(id).then(data => {
@@ -62,11 +65,14 @@ function refresh(data, id) {
               ' You can add movies again from home page',
               'Got it!'
             );
+            refs.libraryForEmptyStyle.style.paddingLeft = '0px';
             refs.library.classList.add('empty__library');
             refs.library.innerHTML = `
-              <p>
-                "Your Watched" library is empty"
-              </p>`;
+              <div class="empty_message_container">
+                <p>
+                  "Your Watched library is empty"
+                </p>
+              </div>`;
           }
         }
          refs.modalContent.innerHTML = '';
@@ -114,11 +120,14 @@ function refresh(data, id) {
               ' You can add movies again from home page',
               'Got it!'
             );
+            refs.libraryForEmptyStyle.style.paddingLeft="0px";
             refs.library.classList.add('empty__library');
             refs.library.innerHTML = `
-          <p class="empty__library">
-              "Your Queue library is empty"
-          </p>`;
+              <div class="empty_message_container">
+                <p>
+                  "Your Queue library is empty"
+                </p>
+              </div>`;
           }
         }
          refs.modalContent.innerHTML = '';

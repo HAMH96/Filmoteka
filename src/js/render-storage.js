@@ -1,6 +1,6 @@
 import { createLibraryMarkup } from './create-library-markup';
 import refs from './ref';
-import { watched, queue } from './set-get-local-storage';
+import { watched, queue, getLibStateLocalStorage, setLibStateLocalStorage} from './set-get-local-storage';
 import { getArrayofMovies } from './api';
 import Notiflix from 'notiflix';
 import { notiflixSetup } from './notiflix-setup';
@@ -12,12 +12,16 @@ const queueRef = document.querySelector('[data-id="queue-btn"]');
 watchedRef.addEventListener('click', showWatched);
 queueRef.addEventListener('click', showQueue);
 
+refs.libraryForEmptyStyle.style.paddingLeft = '105px';
+
 notiflixSetup();
 Notiflix.Loading.init({
   svgColor: colors.colorAccentSec,
 });
 
 function showWatched() {
+  setLibStateLocalStorage('watched');
+  refs.libraryForEmptyStyle.style.paddingLeft = '105px';
   if (!watchedRef.classList.contains('')) {
     watchedRef.classList.add('search__button__active');
     watchedRef.disabled = true;
@@ -26,13 +30,14 @@ function showWatched() {
   }
 
   if (!watched.length) {
+    refs.libraryForEmptyStyle.style.paddingLeft = '0px';
     refs.library.classList.add('empty__library');
     Notiflix.Report.info(
       'Your Watched library is empty',
       ' Here you will see the movies that you add from home page',
       'Got it!'
     );
-
+    
     refs.library.innerHTML = `
       <p>
         "Your Watched library is empty"
@@ -50,6 +55,8 @@ function showWatched() {
 }
 
 function showQueue() {
+  setLibStateLocalStorage("queue");
+  refs.libraryForEmptyStyle.style.paddingLeft = '105px';
   if (!queueRef.classList.contains('header-movie-button--active')) {
     queueRef.classList.add('search__button__active');
     queueRef.disabled = true;
@@ -63,6 +70,7 @@ function showQueue() {
       ' Here you will see the movies that you add from home page',
       'Got it!'
     );
+    refs.libraryForEmptyStyle.style.paddingLeft = '0px';
     refs.library.classList.add('empty__library');
     refs.library.innerHTML = `
     <p class="empty__library">
@@ -78,4 +86,15 @@ function showQueue() {
   });
 }
 
-showWatched();
+export function setLibrary(state) {
+  if (state == 'watched') {
+    showWatched();
+  } else if (state == 'queue') {
+    showQueue();
+  }
+  else {
+    showWatched();
+  }
+}
+
+// setLibrary(getLibStateLocalStorage());
